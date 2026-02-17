@@ -116,6 +116,10 @@ io.on("connection", (socket) => {
 // Start server AFTER DB
 // =====================
 const PORT = process.env.PORT || 3000;
+server.get("/",(req,res)=> {
+  res.send("welcome to OneSphere");
+});
+
 
 (async () => {
   try {
