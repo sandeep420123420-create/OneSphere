@@ -1,0 +1,160 @@
+/* Reset */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+height:100vh;
+background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+}
+
+/* Layout */
+.container{
+display:flex;
+height:100vh;
+}
+
+/* Sidebar */
+.sidebar{
+width:250px;
+background: rgba(255,255,255,0.08);
+backdrop-filter: blur(15px);
+padding:30px;
+display:flex;
+flex-direction:column;
+}
+
+.logo{
+margin-bottom:30px;
+font-size:29px;
+font-weight:bold;
+letter-spacing:1px;
+border-radius: 100px;
+display: inline-block;
+}
+
+.sidebar nav a{
+text-decoration:none;
+color:white;
+padding:12px 15px;
+border-radius:8px;
+margin-bottom:10px;
+transition:0.3s;
+display:block;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active{
+background:rgba(255,255,255,0.2);
+}
+
+/* Main */
+.main{
+flex:1;
+padding:40px;
+overflow:auto;
+}
+
+/* Topbar */
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:40px;
+}
+
+.topbar button{
+background:rgba(255,255,255,0.2);
+border:none;
+padding:8px 15px;
+border-radius:20px;
+cursor:pointer;
+color:white;
+transition:0.3s;
+}
+
+.topbar button:hover{
+background:rgba(255,255,255,0.4);
+}
+
+/* Cards */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+}
+
+.card{
+background: rgba(255,255,255,0.1);
+backdrop-filter: blur(15px);
+padding:30px;
+border-radius:20px;
+text-align:center;
+transition:0.4s;
+cursor:pointer;
+}
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 15px 30px rgba(0,0,0,0.3);
+}
+
+.icon{
+font-size:40px;
+margin-bottom:15px;
+}
+
+/* Light Mode */
+.light{
+background:#f4f7fa;
+color:#111;
+}
+
+.light .sidebar{
+background:#ffffff;
+color:#111;
+}
+
+.light .sidebar nav a{
+color:#111;
+}
+
+.light .card{
+background:white;
+color:#111;
+}
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.logo {
+    animation: float 3s ease-in-out infinite;
+}
+.clock {
+    font-size:18px;
+    font-weight:bold;
+    background:rgba(255,255,255,0.2);
+    padding:5px 12px;
+    border-radius:10px;
+}
+.card:hover{
+transform: scale(1.1) rotate(1deg);
+box-shadow:0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(255,255,255,0.2);
+border:1px solid rgba(255,255,255,0.3);
+}
+body{
+transition: background 0.6s, color 0.6s;
+}
+.card{
+transition: transform 0.4s, box-shadow 0.4s, border 0.4s;
+}
+
+
+
+
