@@ -1,4 +1,3 @@
-
 // =====================
 // Database initialization (PostgreSQL)
 // =====================
@@ -43,8 +42,9 @@ const io = new Server(server, {
 
 app.use(express.static(path.join(__dirname, "public")));
 
+// Home route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.send("Welcome to OneSphere 🚀");
 });
 
 // =====================
@@ -66,38 +66,46 @@ io.on("connection", (socket) => {
   }
 
   socket.on("join", async (username) => {
-    users.set(socket.id, username);
+    try {
+      users.set(socket.id, username);
 
-    socket.broadcast.emit("user_joined", username);
-    io.emit("users_list", Array.from(users.values()));
+      socket.broadcast.emit("user_joined", username);
+      io.emit("users_list", Array.from(users.values()));
 
-    // Load last 50 messages
-    const { rows } = await pool.query(
-      `SELECT username, text, created_at
-       FROM messages
-       ORDER BY created_at ASC
-       LIMIT 50`
-    );
+      // Load last 50 messages
+      const { rows } = await pool.query(
+        `SELECT username, text, created_at
+         FROM messages
+         ORDER BY created_at ASC
+         LIMIT 50`
+      );
 
-    socket.emit("message_history", rows);
+      socket.emit("message_history", rows);
+    } catch (err) {
+      console.error("Join error:", err);
+    }
   });
 
   socket.on("message", async (msg) => {
-    const username = users.get(socket.id);
-    if (!username) return;
+    try {
+      const username = users.get(socket.id);
+      if (!username) return;
 
-    const result = await pool.query(
-      `INSERT INTO messages (username, text)
-       VALUES ($1, $2)
-       RETURNING created_at`,
-      [username, msg]
-    );
+      const result = await pool.query(
+        `INSERT INTO messages (username, text)
+         VALUES ($1, $2)
+         RETURNING created_at`,
+        [username, msg]
+      );
 
-    io.emit("message", {
-      user: username,
-      text: msg,
-      time: result.rows[0].created_at
-    });
+      io.emit("message", {
+        user: username,
+        text: msg,
+        time: result.rows[0].created_at
+      });
+    } catch (err) {
+      console.error("Message error:", err);
+    }
   });
 
   socket.on("disconnect", () => {
@@ -116,10 +124,6 @@ io.on("connection", (socket) => {
 // Start server AFTER DB
 // =====================
 const PORT = process.env.PORT || 3000;
-server.get(...)=> {
-  res.send("welcome to OneSphere");
-});
-
 
 (async () => {
   try {
